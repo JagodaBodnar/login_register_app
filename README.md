@@ -15,7 +15,7 @@ Application is fully responsive and offers basic functionalities such as:
 - register form
 
 After registration user is automatically logged and redirected to Home page.
-![DEMO](https://github.com/JagodaBodnar/login_register_app/issues/1#issue-805487640)
+![DEMO](https://user-images.githubusercontent.com/49833192/107512596-54b83180-6ba7-11eb-905b-9adfbfd3f6f6.gif)
 
 ### Available Scripts:
 
