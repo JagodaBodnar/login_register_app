@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { auth } from "./firebase/firebase";
+import { setCurrentUser as setCurrentUserAction } from "./actions";
+import MainTemplate from "./templates/MainTemplate";
+import UnloggedUserTemplate from "./templates/UnloggedUserTemplate";
 
-function App() {
+const App = () => {
+  const selectedCurrentUser = useSelector((state) => state.currentUser);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(setCurrentUserAction(user));
+        localStorage.setItem("currentUser", user.uid);
+      } else {
+        dispatch(setCurrentUserAction(null));
+        localStorage.removeItem("currentUser");
+      }
+    });
+  }, [selectedCurrentUser]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      {selectedCurrentUser ? <MainTemplate /> : <UnloggedUserTemplate />}
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
